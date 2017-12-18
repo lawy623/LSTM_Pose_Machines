@@ -1,0 +1,19 @@
+# get JHMDB
+wget http://files.is.tue.mpg.de/jhmdb/joint_positions.zip
+wget http://files.is.tue.mpg.de/jhmdb/puppet_mask.zip   #We need to mask to infer the bounding box.
+wget http://files.is.tue.mpg.de/jhmdb/sub_splits.zip
+wget http://files.is.tue.mpg.de/jhmdb/Rename_Images.tar.gz
+
+unzip sub_splits.zip -d JHMDB/sub_splits
+unzip puppet_mask.zip -d JHMDB/
+unzip joint_positions.zip -d JHMDB/
+tar -zxvf Rename_Images.tar.gz -C JHMDB/
+rm -f Rename_Images.tar.gz
+rm -f joint_positions.zip
+rm -f sub_splits.zip
+rm -f puppet_mask.zip
+
+# get PENN
+wget -O Penn_Action.tar.gz https://public.boxcloud.com/d/1/OmwKn6ggBZFvlkRgg2jUKoe8V5laDGIpY5x3fy4cNHZ13Nx3g08b5vD_QA4JxBH7_5CyDUCbj5KUSUKutfkgwjE7EhsJ0Ef6KA-zvfOwuvzNiD3hRPwCrnX3Y64RToCa5wi-B8Hva0kPbvzDwj9xtnXDOYaOLBH7U-e6eOE-3uf9cR3DRqVWKtQ7OrqgJkNa5wJ8uAxGI7LNfWscZb24x2EK9tWQtj22QwDwc9jtUmAWrRkd-BUjYsXYOPzk-l1UmiNzrSBJF8Se9t_WG1eU1qQN36TnJsX9ZjlasLV5ljjHfFar6f6vDvxH6BlRsYZ9NSysPzCD9ywkzFlVEbk47q_vXzgzk8UaKUOjBdcn9iFXFDK_SeKJ5ME2f0L-OK6hqjtm_F0eUK83va42m1ZKzEGfahmkXfcIhx4tOR55HXpqwIE8fn_51WQdOY7aYGho41Im3kKgihtJt1g4r5DZ_AavZZiD_7VLNXNVsqUEqxpF7qp1mEqwb0dTrpjVBwK6o5hL6Za0NWblR4WfTJ93ifgJodVesXUhctKeNnXXBi6M-Wnh4Sw5UdnsAuLH238LSM3VhbxLwaOYL_bS1mNJTW1aSRg5ChK6d21XxKBbZuGs4F_TgvflIHFZsAYHV1ykLYqNxSeaDOXW-IFegvr4L2zN0QNl3vrgR5lBoP6VYqKk6Y7uZoBHbFMKknd9IB_ghH9wt5fycAqjcdCOYyXS4ZenOZMV1A4WWLG0sg02izFk2mbwzS6iqFQDhVgcpdWpgIIvhF9C2Wfpdyz97aXC5Aw8ZruQduXq6spsnJ4oyE-fekHtN6TLMNPKL3LkaUML-iVjZnxQZfUCVGc2YnyU9SxhpHc1irMGoKTulKGZqemoa2P5YrLq8K2Xvjz9quzo6sDjUrpCIYXfGnVAJRS15HDhC9WCqysQIDnixrEpE_0cDgRu3q-HwcbYtW7bQd4QYz8kYRWiaeCETImP9ubMqyVmH5bDCR2bIGn_QrQt8znc-lpDgzQLf_3zOe-IB21JPr1h-AUeSOx6wdpodW7_7BI6j0_Hx_-fUMJdtZZ-tvkwzAzWrBv5F3UwP0x0JWa5Dz-an9iKf-B6Atakzr6bE_Pa4zTR8sPMkHUFc8DTQdjFT4G6LVInv9hOBXajeEDs1S-l9NfQyY-6Q94./download
+tar -zxvf Penn_Action.tar.gz -C PENN/
+rm -f Penn_Action.tar.gz

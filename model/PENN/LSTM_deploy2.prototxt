@@ -1,0 +1,784 @@
+input: "data"
+input_dim: 7
+input_dim: 3
+input_dim: 368
+input_dim: 368
+input: "heatmap"
+input_dim: 7
+input_dim: 15
+input_dim: 46
+input_dim: 46
+input: "center_map"
+input_dim: 7
+input_dim: 1
+input_dim: 368
+input_dim: 368
+input: "h_t_1"
+input_dim: 7
+input_dim: 48
+input_dim: 46
+input_dim: 46
+input: "cell_t_1"
+input_dim: 7
+input_dim: 48
+input_dim: 46
+input_dim: 46
+layer {
+  name: "pool_center_lower"
+  type: "Pooling"
+  bottom: "center_map"
+  top: "pool_center_lower"
+  pooling_param {
+    pool: AVE
+    kernel_size: 9
+    stride: 8
+  }
+}
+layer {
+  name: "conv1_stage2"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1_stage2"
+  param {
+    lr_mult: 5
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 10
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 4
+    kernel_size: 9
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu1_stage2"
+  type: "ReLU"
+  bottom: "conv1_stage2"
+  top: "conv1_stage2"
+}
+layer {
+  name: "pool1_stage2"
+  type: "Pooling"
+  bottom: "conv1_stage2"
+  top: "pool1_stage2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv2_stage2"
+  type: "Convolution"
+  bottom: "pool1_stage2"
+  top: "conv2_stage2"
+  param {
+    lr_mult: 5
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 10
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 4
+    kernel_size: 9
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu2_stage2"
+  type: "ReLU"
+  bottom: "conv2_stage2"
+  top: "conv2_stage2"
+}
+layer {
+  name: "pool2_stage2"
+  type: "Pooling"
+  bottom: "conv2_stage2"
+  top: "pool2_stage2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv3_stage2"
+  type: "Convolution"
+  bottom: "pool2_stage2"
+  top: "conv3_stage2"
+  param {
+    lr_mult: 5
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 10
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 4
+    kernel_size: 9
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu3_stage2"
+  type: "ReLU"
+  bottom: "conv3_stage2"
+  top: "conv3_stage2"
+}
+layer {
+  name: "pool3_stage2"
+  type: "Pooling"
+  bottom: "conv3_stage2"
+  top: "pool3_stage2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv4_stage2"
+  type: "Convolution"
+  bottom: "pool3_stage2"
+  top: "conv4_stage2"
+  param {
+    lr_mult: 5
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 10
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 2
+    kernel_size: 5
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu4_stage2"
+  type: "ReLU"
+  bottom: "conv4_stage2"
+  top: "conv4_stage2"
+}
+layer {
+  name: "concat_x_stage3"
+  type: "Concat"
+  bottom: "conv4_stage2"
+  bottom: "heatmap"
+  bottom: "pool_center_lower"
+  top: "x_stage3"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "g_x_stage3"
+  type: "Convolution"
+  bottom: "x_stage3"
+  top: "g_x_stage3"
+  param {
+    name: "g_x_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "g_x_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "g_h_stage3"
+  type: "Convolution"
+  bottom: "h_t_1"
+  top: "g_h_stage3"
+  param {
+    name: "g_h_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "g_h_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "sum_g_stage3"
+  type: "Eltwise"
+  bottom: "g_x_stage3"
+  bottom: "g_h_stage3"
+  top: "sum_g_stage3"
+  eltwise_param { operation: SUM }
+}
+layer {
+  name: "g_stage3"
+  type: "Scale"
+  bottom: "sum_g_stage3"
+  top: "g_stage3"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    name: "scale_g_b"
+    lr_mult: 1
+    decay_mult: 0
+  }
+  scale_param {
+    filler {
+      value: 1    }
+    bias_term: true
+    bias_filler {
+      value: 0
+    }
+  }
+}
+layer {
+  name: "tanh_g_stage3"
+  bottom: "g_stage3"
+  top: "g_stage3"
+  type: "TanH"
+}
+layer {
+  name: "f_x_stage3"
+  type: "Convolution"
+  bottom: "x_stage3"
+  top: "f_x_stage3"
+  param {
+    name: "f_x_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "f_x_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "f_h_stage3"
+  type: "Convolution"
+  bottom: "h_t_1"
+  top: "f_h_stage3"
+  param {
+    name: "f_h_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "f_h_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "sum_f_stage3"
+  type: "Eltwise"
+  bottom: "f_x_stage3"
+  bottom: "f_h_stage3"
+  top: "sum_f_stage3"
+  eltwise_param { operation: SUM }
+}
+layer {
+  name: "f_stage3"
+  type: "Scale"
+  bottom: "sum_f_stage3"
+  top: "f_stage3"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    name: "scale_f_b"
+    lr_mult: 1
+    decay_mult: 0
+  }
+  scale_param {
+    filler {
+      value: 1    }
+    bias_term: true
+    bias_filler {
+      value: 1
+    }
+  }
+}
+layer {
+  name: "Sigmoid_f_stage3"
+  bottom: "f_stage3"
+  top: "f_stage3"
+  type: "Sigmoid"
+}
+layer {
+  name: "i_x_stage3"
+  type: "Convolution"
+  bottom: "x_stage3"
+  top: "i_x_stage3"
+  param {
+    name: "i_x_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "i_x_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "i_h_stage3"
+  type: "Convolution"
+  bottom: "h_t_1"
+  top: "i_h_stage3"
+  param {
+    name: "i_h_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "i_h_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "sum_i_stage3"
+  type: "Eltwise"
+  bottom: "i_x_stage3"
+  bottom: "i_h_stage3"
+  top: "sum_i_stage3"
+  eltwise_param { operation: SUM }
+}
+layer {
+  name: "i_stage3"
+  type: "Scale"
+  bottom: "sum_i_stage3"
+  top: "i_stage3"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    name: "scale_i_b"
+    lr_mult: 1
+    decay_mult: 0
+  }
+  scale_param {
+    filler {
+      value: 1    }
+    bias_term: true
+    bias_filler {
+      value: 1.4
+    }
+  }
+}
+layer {
+  name: "Sigmoid_i_stage3"
+  bottom: "i_stage3"
+  top: "i_stage3"
+  type: "Sigmoid"
+}
+layer {
+  name: "o_x_stage3"
+  type: "Convolution"
+  bottom: "x_stage3"
+  top: "o_x_stage3"
+  param {
+    name: "o_x_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "o_x_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "o_h_stage3"
+  type: "Convolution"
+  bottom: "h_t_1"
+  top: "o_h_stage3"
+  param {
+    name: "o_h_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "o_h_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 48
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "sum_o_stage3"
+  type: "Eltwise"
+  bottom: "o_x_stage3"
+  bottom: "o_h_stage3"
+  top: "sum_o_stage3"
+  eltwise_param { operation: SUM }
+}
+layer {
+  name: "o_stage3"
+  type: "Scale"
+  bottom: "sum_o_stage3"
+  top: "o_stage3"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    name: "scale_o_b"
+    lr_mult: 1
+    decay_mult: 0
+  }
+  scale_param {
+    filler {
+      value: 1    }
+    bias_term: true
+    bias_filler {
+      value: 0.2
+    }
+  }
+}
+layer {
+  name: "Sigmoid_o_stage3"
+  bottom: "o_stage3"
+  top: "o_stage3"
+  type: "Sigmoid"
+}
+layer {
+  name: "Cell_fc_stage3"
+  type: "Eltwise"
+  bottom: "f_stage3"
+  bottom: "cell_t_1"
+  top: "Cell_fc_stage3"
+  eltwise_param { operation: PROD }
+}
+layer {
+  name: "Cell_ig_stage3"
+  type: "Eltwise"
+  bottom: "g_stage3"
+  bottom: "i_stage3"
+  top: "Cell_ig_stage3"
+  eltwise_param { operation: PROD }
+}
+layer {
+  name: "Cell_stage3"
+  type: "Eltwise"
+  bottom: "Cell_fc_stage3"
+  bottom: "Cell_ig_stage3"
+  top: "Cell_stage3"
+  eltwise_param { operation: SUM }
+}
+layer {
+  name: "tanh_Cell_stage3"
+  bottom: "Cell_stage3"
+  top: "tanh_Cell_stage3"
+  type: "TanH"
+}
+layer {
+  name: "h_stage3"
+  type: "Eltwise"
+  bottom: "o_stage3"
+  bottom: "tanh_Cell_stage3"
+  top: "h_stage3"
+  eltwise_param { operation: PROD }
+}
+layer {
+  name: "Mres1_stage3"
+  type: "Convolution"
+  bottom: "h_stage3"
+  top: "Mres1_stage3"
+  param {
+    name: "Mres1_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "Mres1_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 5
+    kernel_size: 11
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "Mrel1_stage3"
+  type: "ReLU"
+  bottom: "Mres1_stage3"
+  top: "Mres1_stage3"
+}
+layer {
+  name: "Mres2_stage3"
+  type: "Convolution"
+  bottom: "Mres1_stage3"
+  top: "Mres2_stage3"
+  param {
+    name: "Mres2_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "Mres2_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 5
+    kernel_size: 11
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "Mrel2_stage3"
+  type: "ReLU"
+  bottom: "Mres2_stage3"
+  top: "Mres2_stage3"
+}
+layer {
+  name: "Mres3_stage3"
+  type: "Convolution"
+  bottom: "Mres2_stage3"
+  top: "Mres3_stage3"
+  param {
+    name: "Mres3_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "Mres3_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 5
+    kernel_size: 11
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "Mrel3_stage3"
+  type: "ReLU"
+  bottom: "Mres3_stage3"
+  top: "Mres3_stage3"
+}
+
+layer {
+  name: "Mres4_stage3"
+  type: "Convolution"
+  bottom: "Mres3_stage3"
+  top: "Mres4_stage3"
+  param {
+    name: "Mres4_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "Mres4_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "Mrel4_stage3"
+  type: "ReLU"
+  bottom: "Mres4_stage3"
+  top: "Mres4_stage3"
+}
+layer {
+  name: "Mres5_stage3"
+  type: "Convolution"
+  bottom: "Mres4_stage3"
+  top: "Mres5_stage3"
+  param {
+    name: "Mres5_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "Mres5_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 15
+    pad: 0
+    kernel_size: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
