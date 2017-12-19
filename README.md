@@ -3,7 +3,7 @@
 <img src="figs/img.png" width="800" height="300" />
 
 This repo includes the source code of the paper:
-["LSTM Pose Machines"](http://temp.pdf) by Yue Luo, [Jimmy Ren](http://www.jimmyren.com/), Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin.
+["LSTM Pose Machines"](https://arxiv.org/abs/1712.06316) by Yue Luo, [Jimmy Ren](http://www.jimmyren.com/), Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin.
 
 Contact: Yue Luo (lawy623@gmail.com)
 
@@ -36,7 +36,7 @@ The code is tested on 64 bit Linux (Ubuntu 14.04 LTS). You should also install M
 - To create the `.mat` files, please go to directory `dataset/PENN` and `dataset/JHMDB`, and run the matlab scripts `JHMDB_PreData.m` and `PENN_PreData.m` respectively. It will take some time to prepare data.
 
 ### Training
-- As described in our [paper](http://temp.pdf), we first trained a "single image model" based on the repository: [Convolutional Pose Machines(CPMs)](https://github.com/shihenw/convolutional-pose-machines-release). You can download this model at [Google Drive](https://drive.google.com/open?id=1IfcSywYsX33aA_s8fw6rw7C7JJnqp6Fe) or [Baidu Pan](https://pan.baidu.com/s/1c17oOjm). Put it in `training/prototxt/preModel` after downloading it. If you hope to train it by yourself, we also provide the prototxts in `training/prototxt/preModel`. You can train this model with our prototxts using the codes released by [CPMs](https://github.com/shihenw/convolutional-pose-machines-release). This single image model is trained on [LEEDS Sport Dataset](http://www.comp.leeds.ac.uk/mat4saj/lsp.html) and [MPII Dataset](http://human-pose.mpi-inf.mpg.de/).
+- As described in our [paper](https://arxiv.org/abs/1712.06316), we first trained a "single image model" based on the repository: [Convolutional Pose Machines(CPMs)](https://github.com/shihenw/convolutional-pose-machines-release). You can download this model at [Google Drive](https://drive.google.com/open?id=1IfcSywYsX33aA_s8fw6rw7C7JJnqp6Fe) or [Baidu Pan](https://pan.baidu.com/s/1c17oOjm). Put it in `training/prototxt/preModel` after downloading it. If you hope to train it by yourself, we also provide the prototxts in `training/prototxt/preModel`. You can train this model with our prototxts using the codes released by [CPMs](https://github.com/shihenw/convolutional-pose-machines-release). This single image model is trained on [LEEDS Sport Dataset](http://www.comp.leeds.ac.uk/mat4saj/lsp.html) and [MPII Dataset](http://human-pose.mpi-inf.mpg.de/).
 - To train our LSTM Pose Machines on video datasets, go to `training/` to run `video_train_JHMDB.m` or `video_train_PENN.m`. You can also run the matlab scripts from terminal at directory`training/` by following commands. By default matlab is installed under `/usr/local/MATLAB/R2015a`. If the location of your matlab is not the same, please modify `train_LSTM.sh` if want to run the scripts from terminal.
 Notice that, if you want to train our LSTM Pose Machines on sub-JHMDB datasets, please modify `line 10` of `video_train_JHMDB.m` and set the correct subset ID before your run this script.
 
@@ -52,7 +52,7 @@ Notice that, if you want to train our LSTM Pose Machines on sub-JHMDB datasets, 
 ### Testing
 - Download our trained models from [Google Drive](https://drive.google.com/open?id=17138Rx2OYrMrEbg8jt5_v4doxCAdQwxM) or [Baidu Pan](https://pan.baidu.com/s/1eS8hapW). Put these models in `model/PENN/` and `model/sub-JHMDB/` respectively.
 - Go to directory `testing/`. Specify the model ID you want to test by modifying `line 15` of `benchmark.m` and setting the correct `benchmark_modelID`. Then you can run `test_LSTM.sh` which runs the matlab test script to get our evaluation results. Please look in `test_LSTM.sh` and modify the matlab bin location and `-logfile` name before running this script.
-- Predicted results will be saved in `testing/predicts`. You can play with the results by ploting predicted locations on images.
+- Predicted results will be saved in `testing/predicts/`. You can play with the results by ploting predicted locations on images.
 - Orders of the predicted accuracy for two datasets will be as follows:
 ```
   ## PENN Dataset
@@ -68,9 +68,9 @@ To get the results in our paper, you need to remove unlisted joints, calculate a
 ### Citation
 Please cite our paper if you find it useful for your work:
 ```
-@inproceedings{luo2017LSTMPose,
+@article{Luo2017LSTMPose,
     title={LSTM Pose Machines},
-    author={Yue Luo, Jimmy SJ Ren, Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin},
-    booktitle={arXiv: xxxx},
+    author={Yue Luo, Jimmy Ren, Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin},
+    journal={arXiv preprint arXiv: 1712.06316},
     year={2017},
 }
