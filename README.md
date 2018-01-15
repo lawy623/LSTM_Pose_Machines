@@ -65,6 +65,9 @@ Notice that, if you want to train our LSTM Pose Machines on sub-JHMDB datasets, 
 ```
 To get the results in our paper, you need to remove unlisted joints, calculate average and reorder the accuracy.
 
+### Visualization
+- We provide the sample visualization code in `testing/visualization/`, run `visualization.m` to visually get our predicted result on PENN dataset. Make sure your have already run the testing script for PENN before visualizing the results.
+
 ### Citation
 Please cite our paper if you find it useful for your work:
 ```
