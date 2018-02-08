@@ -106,7 +106,7 @@ for i= 1:12
                
         for frame = 1:seqLength %each frame
             heat_ = reshape(heatmap(:,:,:,frame,:),boxsize/stride,boxsize/stride,np+1,length(scale_search));
-            heat_gpu = gpuArray(heat_);
+            heat_gpu = heat_;%gpuArray(heat_);
             heatmap_full = single(zeros([dim(1) dim(2) np+1 length(scale_search)]));
             for scale = 1:length(scale_search)
                 heatmap_large(:,:,:,scale) = imresize(heat_gpu(:,:,:,scale),stride);
