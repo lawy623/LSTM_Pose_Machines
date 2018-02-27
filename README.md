@@ -3,7 +3,7 @@
 <img src="figs/img.png" width="800" height="300" />
 
 This repo includes the source code of the paper:
-["LSTM Pose Machines"](https://arxiv.org/abs/1712.06316) by Yue Luo, [Jimmy Ren](http://www.jimmyren.com/), Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin.
+["LSTM Pose Machines"](https://arxiv.org/abs/1712.06316) (CVPR'18) by Yue Luo, [Jimmy Ren](http://www.jimmyren.com/), Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin.
 
 Contact: Yue Luo (lawy623@gmail.com)
 
