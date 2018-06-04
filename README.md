@@ -71,9 +71,9 @@ To get the results in our paper, you need to remove unlisted joints, calculate a
 ### Citation
 Please cite our paper if you find it useful for your work:
 ```
-@article{Luo2017LSTMPose,
+@inproceedings{Luo2017LSTMPose,
     title={LSTM Pose Machines},
     author={Yue Luo, Jimmy Ren, Zhouxia Wang, Wenxiu Sun, Jinshan Pan, Jianbo Liu, Jiahao Pang, Liang Lin},
-    journal={arXiv preprint arXiv: 1712.06316},
-    year={2017},
+    booktitle={CVPR},
+    year={2018},
 }
